@@ -86,7 +86,7 @@ class DataManagerService : Service(), CoroutineScope {
             var progress = 30.0
             publishProgress(progress.toInt())
             val progressMaxInsert = 80.0
-            val progressDiff = (progressMaxInsert - progress)
+            val progressDiff = (progressMaxInsert - progress) / mahasiswaModels.size
 
             var isInsertSuccess: Boolean
 
