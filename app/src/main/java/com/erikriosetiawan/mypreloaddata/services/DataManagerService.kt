@@ -91,19 +91,21 @@ class DataManagerService : Service(), CoroutineScope {
             var isInsertSuccess: Boolean
 
             try {
+                mahasiswaHelper.beginTransaction()
                 for (model in mahasiswaModels) {
-                    mahasiswaHelper.insert(model)
+                    mahasiswaHelper.insertTransaction(model)
                     progress += progressDiff
                     publishProgress(progress.toInt())
                 }
-
+                mahasiswaHelper.setTransactionSuccess()
                 isInsertSuccess = true
                 appPreference.firstRun = false
             } catch (e: Exception) {
                 Log.e(TAG, "doInBackground: Exception")
                 isInsertSuccess = false
+            } finally {
+                mahasiswaHelper.endTransaction()
             }
-
             mahasiswaHelper.close()
             publishProgress(MAX_PROGRESS.toInt())
             return isInsertSuccess
